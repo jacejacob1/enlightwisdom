@@ -229,3 +229,36 @@ body {
 .group\/photo:hover .photo-grade, .photo-grade.is-color { filter: none; }
 .photo-tint { background: #ee7a0c; mix-blend-mode: multiply; opacity: 0.14; }
 .group\/photo:hover .photo-tint { opacity: 0; }
+
+/* Rover motion graphic */
+.speed-line { left: 105%; animation: speed-line 0.9s linear infinite; }
+@keyframes speed-line { from { left: 105%; } to { left: -55%; } }
+.sonar {
+  border: 2px solid transparent;
+  border-right-color: #f59b40;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  animation: sonar 1.8s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+@keyframes sonar {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+}
+.lamp {
+  background: radial-gradient(circle, rgb(255 255 255 / 0.95) 0%, rgb(255 214 150 / 0.6) 22%, transparent 62%);
+  mix-blend-mode: screen;
+  animation: lamp 2.6s ease-in-out infinite;
+}
+.lamp-boost { animation-duration: 0.18s; }
+@keyframes lamp { 0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); } 47% { opacity: 1; } 50% { opacity: 0.6; } 53% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); } }
+.beam {
+  background: linear-gradient(90deg, rgb(255 236 200 / 0.35), transparent 85%);
+  clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 55%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transition: opacity 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .speed-line, .sonar, .lamp { animation: none; }
+}
+

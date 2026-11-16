@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { team } from "@/lib/content";
-import { cn } from "@/lib/utils";
 import { Reveal, SectionHeader } from "@/components/ui/primitives";
 
 function RobotFace({ seed }: { seed: number }) {
@@ -93,15 +92,22 @@ export default function Team() {
                   className="group relative block w-full overflow-hidden rounded-md border border-line bg-panel text-left transition-colors hover:border-cream/40"
                 >
                   {/* photo window: the human sits behind the robot visor */}
-                  <div className="relative aspect-square overflow-hidden bg-ink">
-                    <Image
-                      src={m.photo}
-                      alt={`Portrait of ${m.name}`}
-                      fill
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                      className={cn("photo-grade object-cover object-top transition-[filter,transform] duration-700", isOpen && "is-color scale-[1.03]")}
-                    />
-                    <div aria-hidden="true" className={cn("photo-tint pointer-events-none absolute inset-0 transition-opacity duration-700", isOpen && "opacity-0")} />
+                  <div className="relative aspect-[5/6] overflow-hidden bg-ink">
+                    {/* full photo: settles from a slight zoom as the visor lifts */}
+                    <motion.div
+                      className="absolute inset-0"
+                      animate={{ scale: isOpen ? 1 : 1.12 }}
+                      transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <Image
+                        src={m.photo}
+                        alt={`Portrait of ${m.name}`}
+                        fill
+                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                        className="object-cover object-top"
+                      />
+                    </motion.div>
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/25 to-transparent" />
 
                     <motion.div
                       animate={{ y: isOpen ? "-102%" : "0%" }}

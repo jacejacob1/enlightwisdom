@@ -1,23 +1,71 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import Image from "next/image";
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type MotionValue } from "motion/react";
 import { ArrowRight, Zap, Factory, GraduationCap, ChevronsLeftRight } from "lucide-react";
 import { divisions } from "@/lib/content";
 import { SectionHeader, Reveal } from "@/components/ui/primitives";
 import { clamp, cn, scrollToId } from "@/lib/utils";
 
-function PanelPhoto({ src, alt, position = "center" }: { src: string; alt: string; position?: string }) {
+function ConveyorArt() {
   return (
-    <div className="group/photo relative h-full w-full overflow-hidden rounded-[4px] bg-ink">
-      <Image src={src} alt={alt} fill sizes="420px" style={{ objectPosition: position }} className="photo-grade object-cover transition-[filter,transform] duration-700 group-hover/photo:scale-[1.04]" />
-      <div aria-hidden="true" className="photo-tint pointer-events-none absolute inset-0 transition-opacity duration-700" />
-    </div>
+    <svg viewBox="0 0 400 200" className="h-full w-full" aria-hidden="true">
+      <defs>
+        <linearGradient id="dv-g" x1="0" x2="1">
+          <stop offset="0" stopColor="#ffc04a" />
+          <stop offset="1" stopColor="#d0570f" />
+        </linearGradient>
+      </defs>
+      <rect x="10" y="150" width="380" height="14" rx="7" fill="#2b2520" />
+      {Array.from({ length: 12 }).map((_, i) => (
+        <circle key={i} cx={22 + i * 32} cy="157" r="4" fill="#4a3f36">
+          <animateTransform attributeName="transform" type="rotate" from={`0 ${22 + i * 32} 157`} to={`360 ${22 + i * 32} 157`} dur="1.2s" repeatCount="indefinite" />
+        </circle>
+      ))}
+      {[0, 1, 2].map((i) => (
+        <rect key={i} y="122" width="34" height="28" rx="4" fill="url(#dv-g)" opacity="0.9">
+          <animate attributeName="x" from="-40" to="400" dur="6s" begin={`${i * 2}s`} repeatCount="indefinite" />
+        </rect>
+      ))}
+      {/* robot arm */}
+      <g transform="translate(250 40)">
+        <rect x="-18" y="70" width="36" height="12" rx="4" fill="#2b2520" />
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-20 0 70; 25 0 70; -20 0 70" dur="3s" repeatCount="indefinite" />
+          <rect x="-6" y="10" width="12" height="62" rx="6" fill="#f4ede4" />
+          <circle cx="0" cy="10" r="9" fill="#f28c0f" />
+          <g>
+            <animateTransform attributeName="transform" type="rotate" values="40 0 10; -10 0 10; 40 0 10" dur="3s" repeatCount="indefinite" />
+            <rect x="-5" y="-38" width="10" height="50" rx="5" fill="#f4ede4" />
+            <path d="M-9 -40 l-6 -12 M9 -40 l6 -12" stroke="#f28c0f" strokeWidth="5" strokeLinecap="round" />
+          </g>
+        </g>
+      </g>
+    </svg>
   );
 }
-const AutomationPhoto = () => <PanelPhoto src="/photos/robot-car.jpg" alt="A robot car built in the Enlight Wisdom lab" />;
-const EducationPhoto = () => <PanelPhoto src="/photos/class/class-9.jpg" alt="A trainer guiding a young student through a robotics build" position="center 35%" />;
+
+function ClassroomArt() {
+  const glyphs = ["if (x)", "AI", "f(x)", "</>", "∑", "ROS", "IoT", "π"];
+  return (
+    <svg viewBox="0 0 400 200" className="h-full w-full" aria-hidden="true">
+      <rect x="40" y="20" width="320" height="140" rx="10" fill="#1d241d" stroke="#3a3128" strokeWidth="6" />
+      {glyphs.map((g, i) => (
+        <text key={g} x={70 + (i % 4) * 75} y={60 + Math.floor(i / 4) * 55} fill="#fff3e4" opacity="0.75" fontFamily="monospace" fontSize="20">
+          {g}
+          <animate attributeName="opacity" values="0.15;0.85;0.15" dur={`${3 + (i % 3)}s`} begin={`${i * 0.4}s`} repeatCount="indefinite" />
+        </text>
+      ))}
+      <g transform="translate(200 175)">
+        <polygon points="-50,0 0,-18 50,0 0,18" fill="#f28c0f" />
+        <rect x="-22" y="2" width="44" height="16" rx="3" fill="#d0570f" />
+        <line x1="40" y1="2" x2="40" y2="22" stroke="#ffb22e" strokeWidth="3">
+          <animateTransform attributeName="transform" type="rotate" values="-12 40 2; 12 40 2; -12 40 2" dur="2.4s" repeatCount="indefinite" />
+        </line>
+      </g>
+    </svg>
+  );
+}
 
 type PanelProps = {
   side: "left" | "right";
@@ -90,8 +138,8 @@ function Panel({ side, share }: PanelProps) {
   const left = side === "left";
   return (
     <motion.div style={{ width }} className={cn("relative h-full shrink-0 overflow-hidden", left ? "theme-dark" : "theme-orange")}>
-      <motion.div style={{ opacity: artOpacity }} className={cn("absolute bottom-10 h-72 w-[24rem]", left ? "right-10" : "left-10")}>
-        {left ? <AutomationPhoto /> : <EducationPhoto />}
+      <motion.div style={{ opacity: artOpacity }} className={cn("pointer-events-none absolute bottom-6 h-64 w-[26rem]", left ? "right-8" : "left-8")}>
+        {left ? <ConveyorArt /> : <ClassroomArt />}
       </motion.div>
       <motion.div
         style={{ opacity: contentOpacity }}
@@ -213,7 +261,7 @@ export default function Divisions() {
             <Reveal key={s}>
               <div className={cn("overflow-hidden rounded-md p-6", s === "left" ? "theme-dark" : "theme-orange")}>
                 {s === "left" ? <AutomationContent /> : <EducationContent />}
-                <div className="mt-6 h-52">{s === "left" ? <AutomationPhoto /> : <EducationPhoto />}</div>
+                <div className="mt-6 h-44">{s === "left" ? <ConveyorArt /> : <ClassroomArt />}</div>
               </div>
             </Reveal>
           ))}

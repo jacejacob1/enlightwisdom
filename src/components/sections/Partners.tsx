@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import LogoMark from "@/components/ui/LogoMark";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
 import { ChevronLeft, ChevronRight, GripHorizontal } from "lucide-react";
@@ -112,25 +112,21 @@ export default function Partners() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.03 }}
               whileHover={{ y: -6 }}
-              className="glass group relative flex h-48 w-[16rem] shrink-0 select-none flex-col justify-between overflow-hidden rounded-md p-6"
+              className="glass group relative flex h-[16.5rem] w-[16rem] shrink-0 select-none flex-col overflow-hidden rounded-md"
             >
-              <div aria-hidden="true" className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-orange/0 transition-colors duration-500 group-hover:bg-orange/30" />
-              <div className="flex items-start justify-between">
-                {p.logo ? (
-                  <span className="relative block h-16 w-20">
-                    <Image src={p.logo} alt={`${p.name} logo`} fill sizes="80px" className="object-contain object-left opacity-80 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0" draggable={false} />
-                  </span>
-                ) : (
-                  <span className="grid h-14 w-14 place-items-center rounded-md border border-line bg-white/[0.05] font-brand text-lg font-semibold tracking-wider text-grad">
-                    {initials(p.name)}
-                  </span>
-                )}
-                <span className={cn("rounded-full px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.15em]", p.group === "Our clients" ? "bg-amber/15 text-amber" : "bg-cream/10 text-sand")}>
+              {/* logo stage */}
+              <div className="relative grid h-44 place-items-center border-b border-line bg-sunk">
+                <span className={cn("absolute left-3 top-3 rounded-full px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.15em]", p.group === "Our clients" ? "bg-brand/15 text-amber" : "bg-cream/10 text-sand")}>
                   {p.group === "Our clients" ? "Client" : "MOU partner"}
                 </span>
+                {p.logo ? (
+                  <LogoMark id={p.logo} name={p.name} replayKey={filter} className="h-28 w-36 transition-transform duration-500 group-hover:scale-105 group-hover:[&_img]:scale-100 group-hover:[&_img]:opacity-100 group-hover:[&_svg]:opacity-0" />
+                ) : (
+                  <span className="display text-6xl text-cream/25 transition-colors duration-500 group-hover:text-amber">{initials(p.name)}</span>
+                )}
               </div>
-              <div>
-                <p className="font-display text-xl font-semibold leading-tight text-cream">{p.name}</p>
+              <div className="flex flex-1 flex-col justify-end p-5">
+                <p className="text-lg font-semibold leading-tight text-cream">{p.name}</p>
                 {p.note && <p className="mt-1 text-xs text-muted">{p.note}</p>}
               </div>
             </motion.div>
