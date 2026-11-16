@@ -16,10 +16,10 @@ export const site = {
   email: "connect@enlightwisdom.com",
   // Add the real profile URLs here. Any entry left empty is hidden on the site.
   social: [
-    { name: "LinkedIn", href: "" },
-    { name: "YouTube", href: "" },
-    { name: "Instagram", href: "" },
-    { name: "Facebook", href: "" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/company/enlightwisdom/about/" },
+    { name: "YouTube", href: "https://www.youtube.com/@enlightwisdom259/featured" },
+    { name: "Instagram", href: "https://www.instagram.com/enlightwisdom_/" },
+    { name: "Facebook", href: "https://www.facebook.com/Enlightwisdom" },
   ],
 };
 
@@ -238,6 +238,7 @@ export const education = {
       "What a school gains: enhanced curriculum, teacher training, global recognition, an innovative learning space and career readiness.",
     cta: "Partner with us",
     interest: "Programmes for a school",
+    photo: "/photos/schools.jpg",
   },
   colleges: {
     title: "For colleges",
@@ -297,7 +298,19 @@ export const education = {
     gains: "",
     cta: "Request a proposal",
     interest: "Programmes for a college",
+    photo: "/photos/colleges.jpg",
   },
+  // Real photos from Enlight Wisdom sessions (from enlightwisdom.com)
+  classroom: [
+    { src: "/photos/class/class-8.jpg", w: 1400, h: 1050, alt: "Students building with a robotics kit" },
+    { src: "/photos/class/class-1.jpg", w: 270, h: 200, alt: "A technology talk for a full school hall" },
+    { src: "/photos/class/class-6.jpg", w: 1400, h: 1867, alt: "Two students wiring a circuit at a laptop" },
+    { src: "/photos/class/class-3.jpg", w: 270, h: 200, alt: "A hands-on robotics session in a classroom" },
+    { src: "/photos/class/class-9.jpg", w: 1400, h: 1867, alt: "A trainer guiding a young student through a build" },
+    { src: "/photos/class/class-2.jpg", w: 270, h: 200, alt: "Students in a workshop with the trainers" },
+    { src: "/photos/class/class-5.jpg", w: 1024, h: 768, alt: "A teacher training session with a projector" },
+    { src: "/photos/class/class-4.jpg", w: 270, h: 200, alt: "Young learners in an activity room" },
+  ],
   alsoTitle: "Also offered",
   also: [
     {
@@ -321,22 +334,23 @@ export const education = {
   ],
 };
 
-export const partners = {
+export type Partner = { group: string; name: string; note?: string; logo?: string };
+export const partners: { headline: string; intro: string; items: Partner[] } = {
   headline: "Good company *to keep.*",
   intro: "Schools, institutions and partners who build with us. Drag, swipe or use the arrows.",
   items: [
-    { group: "Our clients", name: "READ" },
+    { group: "Our clients", name: "READ", logo: "/photos/partners/read.png" },
     { group: "Our clients", name: "Sree Academy" },
-    { group: "Our clients", name: "HETA" },
+    { group: "Our clients", name: "HETA", logo: "/photos/partners/heta.png" },
     { group: "Our clients", name: "Destino of Dance" },
     { group: "Our clients", name: "Versatile Academy" },
     { group: "Our clients", name: "Dr. M.G.R. Institute", note: "Educational and Research Institute" },
-    { group: "Our clients", name: "Phonic Champs" },
-    { group: "Our MOU partners", name: "WitBlox" },
+    { group: "Our clients", name: "Phonic Champs", logo: "/photos/partners/phonic-champs.png" },
+    { group: "Our MOU partners", name: "WitBlox", logo: "/photos/partners/witblox.png" },
     { group: "Our MOU partners", name: "AICRA" },
-    { group: "Our MOU partners", name: "Hash Robotics" },
+    { group: "Our MOU partners", name: "Hash Robotics", logo: "/photos/partners/hash-robotics.png" },
     { group: "Our MOU partners", name: "STEM.org", note: "Certified Educational Instructor" },
-    { group: "Our MOU partners", name: "MSME" },
+    { group: "Our MOU partners", name: "MSME", logo: "/photos/partners/msme.png" },
     { group: "Our MOU partners", name: "St Joseph Engineering College" },
     { group: "Our MOU partners", name: "KCG College" },
     { group: "Our MOU partners", name: "SRM University" },
@@ -371,12 +385,12 @@ export const team = {
   headline: "The humans *behind the robots.*",
   intro: "Robotics engineers, curriculum specialists and educators with decades of combined experience.",
   members: [
-    { name: "Bezaleel S (Beslee)", role: "Managing Director and Founder", profile: "M.Tech Robotics" },
-    { name: "Abraham", role: "Educational and Technical Advisor", profile: "B.Tech Ed, MBA" },
-    { name: "Caroline Cynthia", role: "Curriculum Specialist", profile: "Computer Science Engineer" },
-    { name: "Surya Narayanan", role: "Lead Technical Consultant", profile: "M.Tech Robotics" },
-    { name: "Vinodhini", role: "Educational Advisory", profile: "M.A., B.Ed." },
-    { name: "Vaishali", role: "Operations Manager", profile: "MBA" },
+    { name: "Bezaleel S (Beslee)", role: "Managing Director and Founder", profile: "M.Tech Robotics", photo: "/photos/team/beslee.jpg" },
+    { name: "Abraham", role: "Educational and Technical Advisor", profile: "B.Tech Ed, MBA", photo: "/photos/team/abraham.jpg" },
+    { name: "Caroline Cynthia", role: "Curriculum Specialist", profile: "Computer Science Engineer", photo: "/photos/team/caroline.jpg" },
+    { name: "Surya Narayanan", role: "Lead Technical Consultant", profile: "M.Tech Robotics", photo: "/photos/team/surya.jpg" },
+    { name: "Vinodhini", role: "Educational Advisory", profile: "M.A., B.Ed.", photo: "/photos/team/vinodhini.jpg" },
+    { name: "Vaishali", role: "Operations Manager", profile: "MBA", photo: "/photos/team/vaishali.jpg" },
   ],
 };
 

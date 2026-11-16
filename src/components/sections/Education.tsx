@@ -4,7 +4,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { School, Building2, Check, Plus, ArrowRight, Compass, Briefcase, Handshake, Sparkles } from "lucide-react";
 import { education } from "@/lib/content";
-import { Reveal, SectionHeader, SpotlightCard } from "@/components/ui/primitives";
+import { Reveal, SectionHeader, SpotlightCard, Photo } from "@/components/ui/primitives";
+import ClassroomStrip from "./ClassroomStrip";
 import { cn, enquire } from "@/lib/utils";
 
 type Aud = "schools" | "colleges";
@@ -57,9 +58,18 @@ export default function Education() {
 
         <AnimatePresence mode="wait">
           <motion.div key={aud} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}>
-            <p className="mt-14 font-display text-2xl font-semibold text-cream sm:text-3xl">
-              {data.title}. <span className="text-sand/60">{data.sub}</span>
-            </p>
+            <div className="mt-14 grid items-end gap-8 lg:grid-cols-12">
+              <div className="lg:col-span-5">
+                <p className="display text-6xl text-cream sm:text-7xl">{data.title}.</p>
+                <p className="serif-i mt-3 text-3xl leading-tight text-cream/80 sm:text-4xl">{data.sub}</p>
+              </div>
+              <Photo
+                src={data.photo}
+                alt={aud === "schools" ? "School students building a robot car together" : "College students assembling a robot in a lab"}
+                className="aspect-[16/9] rounded-md lg:col-span-7"
+                sizes="(min-width: 1024px) 55vw, 100vw"
+              />
+            </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {data.formats.map((f, i) => (
@@ -132,6 +142,8 @@ export default function Education() {
             </div>
           </motion.div>
         </AnimatePresence>
+
+        <ClassroomStrip />
 
         {/* also offered */}
         <div className="mt-20">

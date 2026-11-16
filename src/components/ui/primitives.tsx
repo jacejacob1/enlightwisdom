@@ -2,6 +2,7 @@
 
 import { motion, useMotionTemplate, useMotionValue, useSpring, type HTMLMotionProps } from "motion/react";
 import { useRef, type ReactNode, type PointerEvent } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Fade + rise into view once. */
@@ -219,5 +220,55 @@ export function Tag({ children, className }: { children: ReactNode; className?: 
     >
       {children}
     </span>
+  );
+}
+
+/**
+ * House photo treatment: every photo is graded warm-monochrome so phone shots and
+ * studio shots sit together, then blooms into full colour on hover (or when `color` is set).
+ * It enters with a curtain wipe and a slow settle in scale.
+ */
+export function Photo({
+  src,
+  alt,
+  className,
+  imgClassName,
+  sizes = "(min-width: 1024px) 40vw, 100vw",
+  color = false,
+  priority = false,
+  position = "center",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  imgClassName?: string;
+  sizes?: string;
+  color?: boolean;
+  priority?: boolean;
+  position?: string;
+}) {
+  // The in-view trigger lives on an unclipped wrapper: a fully clipped element can read as
+  // "not visible" to IntersectionObserver, so the wipe would never start.
+  return (
+    <motion.div className={cn("group/photo relative", className)} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}>
+      <motion.div
+        className="absolute inset-0 overflow-hidden rounded-[inherit] bg-ink"
+        variants={{ hidden: { clipPath: "inset(100% 0% 0% 0%)" }, show: { clipPath: "inset(0% 0% 0% 0%)" } }}
+        transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+      >
+        <motion.div className="absolute inset-0" variants={{ hidden: { scale: 1.18 }, show: { scale: 1 } }} transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}>
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes={sizes}
+            priority={priority}
+            style={{ objectPosition: position }}
+            className={cn("photo-grade object-cover transition-[filter,transform] duration-700 group-hover/photo:scale-[1.03]", color && "is-color", imgClassName)}
+          />
+        </motion.div>
+        <div aria-hidden="true" className={cn("photo-tint pointer-events-none absolute inset-0 transition-opacity duration-700", color && "opacity-0")} />
+      </motion.div>
+    </motion.div>
   );
 }

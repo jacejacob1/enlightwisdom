@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { team } from "@/lib/content";
+import { cn } from "@/lib/utils";
 import { Reveal, SectionHeader } from "@/components/ui/primitives";
 
 function RobotFace({ seed }: { seed: number }) {
@@ -50,14 +52,6 @@ function RobotFace({ seed }: { seed: number }) {
   );
 }
 
-const initials = (name: string) =>
-  name
-    .replace(/\(.*\)/, "")
-    .trim()
-    .split(/\s+/)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("");
 
 export default function Team() {
   const [open, setOpen] = useState<number | null>(null);
@@ -96,32 +90,40 @@ export default function Team() {
                   onClick={() => reveal(lastPointer.current === "mouse" ? i : isOpen ? null : i)}
                   aria-expanded={isOpen}
                   aria-label={`${m.name}, ${m.role}`}
-                  className="glass relative block h-72 w-full overflow-hidden rounded-md text-left"
+                  className="group relative block w-full overflow-hidden rounded-md border border-line bg-panel text-left transition-colors hover:border-cream/40"
                 >
-                  {/* the human */}
-                  <div className="absolute inset-0 flex flex-col justify-between p-7">
-                    <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgb(242_140_15/0.25),transparent_60%)]" />
-                    <span className="relative font-brand text-7xl font-semibold leading-none tracking-wider text-grad">{initials(m.name)}</span>
-                    <div className="relative">
-                      <p className="font-display text-2xl font-bold tracking-tight text-cream">{m.name}</p>
-                      <p className="mt-1 text-sm font-medium text-amber">{m.role}</p>
-                      <p className="mt-3 inline-block rounded-full border border-line px-3 py-1 font-mono text-[0.68rem] tracking-wide text-sand">{m.profile}</p>
-                    </div>
+                  {/* photo window: the human sits behind the robot visor */}
+                  <div className="relative aspect-square overflow-hidden bg-ink">
+                    <Image
+                      src={m.photo}
+                      alt={`Portrait of ${m.name}`}
+                      fill
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                      className={cn("photo-grade object-cover object-top transition-[filter,transform] duration-700", isOpen && "is-color scale-[1.03]")}
+                    />
+                    <div aria-hidden="true" className={cn("photo-tint pointer-events-none absolute inset-0 transition-opacity duration-700", isOpen && "opacity-0")} />
+
+                    <motion.div
+                      animate={{ y: isOpen ? "-102%" : "0%" }}
+                      transition={{ type: "spring", stiffness: 140, damping: 20 }}
+                      className="absolute inset-0 flex flex-col items-center justify-center gap-4 border-b-2 border-brand bg-[linear-gradient(160deg,#211a14,#120e0a)]"
+                    >
+                      <motion.div animate={{ rotate: isOpen ? -8 : 0 }} className="relative">
+                        <RobotFace seed={i} />
+                      </motion.div>
+                      <p className="relative text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#948878]">
+                        {m.role.split(" ")[0]} unit · <span className="text-[#f59b40]">tap to reveal</span>
+                      </p>
+                    </motion.div>
                   </div>
 
-                  {/* the robot visor that lifts away */}
-                  <motion.div
-                    animate={{ y: isOpen ? "-102%" : "0%" }}
-                    transition={{ type: "spring", stiffness: 140, damping: 20 }}
-                    className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-md border-b-2 border-amber/60 bg-[linear-gradient(160deg,#211a14,#120e0a)]"
-                  >
-                    <motion.div animate={{ rotate: isOpen ? -8 : 0 }} className="relative">
-                      <RobotFace seed={i} />
-                    </motion.div>
-                    <p className="relative font-mono text-[0.68rem] uppercase tracking-[0.25em] text-muted">
-                      {m.role.split(" ")[0]} unit · <span className="text-amber">tap to reveal</span>
-                    </p>
-                  </motion.div>
+                  <div className="flex items-start justify-between gap-4 p-5">
+                    <div>
+                      <p className="text-xl font-semibold leading-tight text-cream">{m.name}</p>
+                      <p className="mt-1 text-sm text-sand">{m.role}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-line px-2.5 py-1 text-[0.68rem] font-semibold text-muted">{m.profile}</span>
+                  </div>
                 </button>
               </Reveal>
             );

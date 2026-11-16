@@ -5,7 +5,7 @@ import { motion, useInView } from "motion/react";
 import { Award } from "lucide-react";
 import { proof } from "@/lib/content";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { Reveal, SectionHeader } from "@/components/ui/primitives";
+import { Reveal, SectionHeader, Photo } from "@/components/ui/primitives";
 import { cn } from "@/lib/utils";
 
 const GRID = 10;
@@ -178,19 +178,22 @@ export default function Proof() {
           ))}
         </div>
 
-        <Reveal delay={0.1}>
-          <div className="mt-14 flex flex-col gap-5 rounded-md border border-line bg-white/[0.02] p-6 sm:flex-row sm:items-center">
-            <Award className="h-8 w-8 shrink-0 text-amber" aria-hidden="true" />
-            <p className="flex-1 text-sm leading-relaxed text-sand/85">{proof.recognition}</p>
+        <div className="mt-16 grid items-stretch gap-6 border-t border-line pt-10 lg:grid-cols-12">
+          <Photo src="/photos/recognition.jpg" alt="The Enlight Wisdom team receiving an award on stage" className="aspect-[4/3] rounded-md lg:col-span-5" position="center 40%" />
+          <Reveal delay={0.1} className="flex flex-col justify-between gap-8 lg:col-span-7 lg:pl-6">
+            <div>
+              <Award className="h-8 w-8 text-amber" aria-hidden="true" />
+              <p className="mt-6 text-2xl leading-snug text-cream sm:text-3xl">{proof.recognition}</p>
+            </div>
             <div className="flex flex-wrap gap-2">
               {proof.badges.map((b) => (
-                <span key={b} className="rounded-full border border-amber/30 bg-amber/[0.07] px-3 py-1 font-mono text-[0.68rem] tracking-wide text-amber">
+                <span key={b} className="rounded-full border border-line px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-sand">
                   {b}
                 </span>
               ))}
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

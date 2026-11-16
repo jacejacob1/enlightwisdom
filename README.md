@@ -36,10 +36,16 @@ In headlines, words wrapped in `*asterisks*` in `content.ts` are set in the ital
 
 ## To fill in before launch
 
-- **Social links**: add the LinkedIn, YouTube, Instagram and Facebook URLs in `site.social` in `src/lib/content.ts`. Empty ones stay hidden.
+- **Social links**: set from enlightwisdom.com in `site.social` (`src/lib/content.ts`).
 - **Enquiry form**: there is no backend yet. On submit, the visitor sends the pre-written message by WhatsApp (+91 73959 14690) or email (connect@enlightwisdom.com). To store enquiries, add a Supabase table or an email API route later.
-- **Partner logos**: partners show as name cards with initials. Drop real logos into `public/` and add them to `partners.items` if you'd like logos.
+- **Partner logos**: READ, HETA, Phonic Champs, WitBlox, Hash Robotics and MSME use their real logos (from enlightwisdom.com). The rest show initials until a logo is added to `public/photos/partners/` and referenced with `logo:` in `partners.items`.
 - **Domain**: `metadataBase` in `layout.tsx` is set to `https://enlightwisdom.com`. Change it if the site lives elsewhere.
+
+## Photos
+
+Real photos from enlightwisdom.com live in `public/photos/` (team portraits, classroom sessions, the award, the lab robot car, partner logos).
+Every photo goes through one house treatment (the `Photo` component in `src/components/ui/primitives.tsx` + `.photo-grade` in `globals.css`):
+warm monochrome with a light orange tint that blooms into full colour on hover, entering with a curtain wipe.
 
 ## Interactive pieces, by section
 
@@ -48,10 +54,10 @@ In headlines, words wrapped in `*asterisks*` in `content.ts` are set in the ital
 - About: the "At a glance" card tilts with the cursor.
 - Services: pick a service to see it animated. The process track fills as you scroll.
 - Products: four live simulations.
-- Education: schools/colleges toggle plus a course picker that pre-fills the enquiry.
+- Education: schools/colleges toggle, a course picker that pre-fills the enquiry, and a "From our classrooms" photo strip that drifts on scroll and opens in a viewer.
 - Partners: filter, drag/swipe, arrows.
 - Why us: each stat lights up a 100-dot field.
-- Team: lift the robot visor to meet the person.
+- Team: lift the robot visor to reveal each person's photo.
 - Contact: validated form with a little robot that watches (and covers its eyes for your phone number).
 
 Components adapted from Magic UI (the open source behind many 21st.dev components): number ticker, card spotlight.

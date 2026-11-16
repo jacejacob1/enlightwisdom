@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
 import { ChevronLeft, ChevronRight, GripHorizontal } from "lucide-react";
@@ -115,16 +116,22 @@ export default function Partners() {
             >
               <div aria-hidden="true" className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-orange/0 transition-colors duration-500 group-hover:bg-orange/30" />
               <div className="flex items-start justify-between">
-                <span className="grid h-14 w-14 place-items-center rounded-md border border-line bg-white/[0.05] font-brand text-lg font-semibold tracking-wider text-grad">
-                  {initials(p.name)}
-                </span>
+                {p.logo ? (
+                  <span className="relative block h-16 w-20">
+                    <Image src={p.logo} alt={`${p.name} logo`} fill sizes="80px" className="object-contain object-left opacity-80 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0" draggable={false} />
+                  </span>
+                ) : (
+                  <span className="grid h-14 w-14 place-items-center rounded-md border border-line bg-white/[0.05] font-brand text-lg font-semibold tracking-wider text-grad">
+                    {initials(p.name)}
+                  </span>
+                )}
                 <span className={cn("rounded-full px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.15em]", p.group === "Our clients" ? "bg-amber/15 text-amber" : "bg-cream/10 text-sand")}>
                   {p.group === "Our clients" ? "Client" : "MOU partner"}
                 </span>
               </div>
               <div>
                 <p className="font-display text-xl font-semibold leading-tight text-cream">{p.name}</p>
-                {"note" in p && p.note && <p className="mt-1 text-xs text-muted">{p.note}</p>}
+                {p.note && <p className="mt-1 text-xs text-muted">{p.note}</p>}
               </div>
             </motion.div>
           ))}
